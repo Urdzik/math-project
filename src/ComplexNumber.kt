@@ -1,9 +1,9 @@
 class ComplexNumber(val real: Double, val imaginary: Double) {
-    override fun equals(`object`: Any?): Boolean {
-        if (`object` !is ComplexNumber) return false
-        val a = `object`
-        return real == a.real && imaginary == a.imaginary
-    }
+//    override fun equals(`object`: Any?): Boolean {
+//        if (`object` !is ComplexNumber) return false
+//        val a = `object`
+//        return real == a.real && imaginary == a.imaginary
+//    }
 
     val amount: Double
         get() = Math.sqrt(real * real + imaginary * imaginary)
