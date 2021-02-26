@@ -1,7 +1,7 @@
+import cern.jet.random.Normal
 import kotlin.math.pow
 import java.text.DecimalFormat
 import kotlin.random.Random
-import kotlin.random.nextUInt
 
 object Taculator {
 
@@ -642,4 +642,204 @@ object Taculator {
     }
 
 
+    fun randIntNoRep(a: Int, b: Int, c: Int = 1): String {
+        val list = mutableListOf<Int>()
+        var i = 1
+        while (i <= c) {
+            val result = Random.nextInt(a, b)
+            val data = list.find { it == result }
+            if (data == null) {
+                list.add(result)
+                i++
+            }
+        }
+        return list.joinToString { it.toString() }
+    }
+
+
+    fun equally(a: Number, b: Number): Int {
+        val a_data: Double = a.toDouble()
+        val b_data: Double = b.toDouble()
+        val bool = (a_data == b_data)
+        return if (bool) 1 else 0
+    }
+
+    fun notEqually(a: Number, b: Number): Int {
+        val a_data: Double = a.toDouble()
+        val b_data: Double = b.toDouble()
+        val bool = (a_data != b_data)
+        return if (bool) 1 else 0
+    }
+
+    fun more(a: Number, b: Number): Int {
+        val a_data: Double = a.toDouble()
+        val b_data: Double = b.toDouble()
+        val bool = (a_data > b_data)
+        return if (bool) 1 else 0
+    }
+
+    fun moreOrEqually(a: Number, b: Number): Int {
+        val a_data: Double = a.toDouble()
+        val b_data: Double = b.toDouble()
+        val bool = (a_data >= b_data)
+        return if (bool) 1 else 0
+    }
+
+    fun less(a: Number, b: Number): Int {
+        val a_data: Double = a.toDouble()
+        val b_data: Double = b.toDouble()
+        val bool = (a_data < b_data)
+        return if (bool) 1 else 0
+    }
+
+    fun lessOrEqually(a: Number, b: Number): Int {
+        val a_data: Double = a.toDouble()
+        val b_data: Double = b.toDouble()
+        val bool = (a_data <= b_data)
+        return if (bool) 1 else 0
+    }
+
+    fun and(a: Int, b: Int): Int {
+        val a_data: Boolean = a == 1
+        val b_data: Boolean = b == 1
+        val bool = (a_data && b_data)
+        return if (bool) 1 else 0
+    }
+
+    fun or(a: Number, b: Number): Int {
+        val a_data: Boolean = a == 1
+        val b_data: Boolean = b == 1
+        val bool = (a_data || b_data)
+        return if (bool) 1 else 0
+    }
+
+    fun xor(a: Number, b: Number): Int {
+        val a_data: Boolean = a == 1
+        val b_data: Boolean = b == 1
+        val bool = (a_data == b_data)
+        return if (bool) 1 else 0
+    }
+
+    fun not(a: Number): Int {
+        val a_data: Boolean = a == 1
+        val bool = !a_data
+        return if (bool) 1 else 0
+    }
+
+    fun degreesToRadians(a: Number): Number {
+        val a_data: Double = a.toDouble()
+        return Math.toRadians(a_data)
+    }
+
+    fun radiansToDegrees(a: Number): Number {
+        val a_data: Double = a.toDouble()
+        return Math.toDegrees(a_data)
+    }
+
+    fun degreesToRadians(degrees: Number, minutes: Number, seconds: Number): Number {
+        val degrees_data: Double = degrees.toDouble()
+        val minutes_data: Double = minutes.toDouble()
+        val seconds_data: Double = seconds.toDouble()
+        val result = degrees_data + minutes_data / 60.0 + seconds_data / 3600.0
+        return Math.toRadians(result)
+    }
+
+    fun det(matrix: Array<DoubleArray>): Number {
+        val result = MatrixOperations.matrixDeterminant(matrix)
+        return result
+    }
+
+    fun transpose(matrix: Array<DoubleArray>): String {
+        val result = MatrixOperations.transposeMatrix(matrix)
+        MatrixOperations.printMatrix(result, 4)
+        return result.joinToString { it.joinToString { it.toString() } }
+    }
+
+    // TODO add dim with sto→
+    fun dim(matrix: Array<DoubleArray>): Int {
+        var result = 0
+        matrix.forEach {
+            result += it.size
+        }
+        return result
+    }
+
+    // FIXME: 2/25/21 I don't know, how to do it
+    fun fill(matrix: Array<DoubleArray>): String {
+        return matrix.apply { this.fill(this[0], 0, 9) }.joinToString { it.joinToString { it.toString() } }
+    }
+
+    fun identity(countOfRowAndCollum: Int): Array<IntArray> {
+        var cinema = arrayOf<IntArray>()
+
+        for (i in 0 until countOfRowAndCollum) {
+            var array = arrayOf<Int>()
+            for (j in  0 until countOfRowAndCollum) {
+                array += 0
+            }
+            cinema += array.toIntArray()
+        }
+        MatrixOperations.printMatrix(cinema, 5)
+        return cinema
+    }
+
+    fun randM(countOfRow: Int, countOfCollum: Int): Array<IntArray> {
+        var cinema = arrayOf<IntArray>()
+
+        for (i in 0 until countOfRow) {
+            var array = arrayOf<Int>()
+            for (j in  0 until countOfCollum) {
+                array += Random.nextInt(-9, 9)
+            }
+            cinema += array.toIntArray()
+        }
+        MatrixOperations.printMatrix(cinema, 5)
+        return cinema
+    }
+
+
+    fun cumSum(a: IntArray): IntArray {
+        val out = IntArray(a.size)
+        var total = 0
+        for (i in a.indices) {
+            total += a[i]
+            out[i] = total
+        }
+        return out
+    }
+
+    fun cumSum(a: Array<IntArray>): Array<IntArray> {
+        val out = IntArray(a.size)
+        var total = 0
+        val list = mutableListOf<IntArray>()
+        a.forEach {
+            for (i in it.indices) {
+                total += it[i]
+                out[i] = total
+            }
+            list.add(it)
+        }
+
+        return list.toTypedArray()
+    }
+
+    fun rref(matrix: Array<DoubleArray>): Array<DoubleArray>? {
+        val result = MatrixOperations.rref(matrix)
+        MatrixOperations.printMatrix(result, 5)
+        return result
+    }
+
+    fun normalpdf(a: Number, b: Number, c: Number): Number {
+        val normal = Normal(b.toDouble(), c.toDouble(),null)
+        val result = normal.pdf(a.toDouble())
+        return result
+    }
+
+
+
+
+
 }
+
+
+
